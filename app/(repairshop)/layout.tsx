@@ -1,3 +1,5 @@
+import Header from "@/components/Header";
+
 export default async function RSLayout({
   children,
 }: {
@@ -5,7 +7,7 @@ export default async function RSLayout({
 }) {
   return (
     <div>
-      {/* Header */}
+      <Header />
       <div>{children}</div>
     </div>
   );
