@@ -2,6 +2,7 @@ import React from 'react'
 import NavButton from './NavButton'
 import { File, HomeIcon, UsersRound } from 'lucide-react'
 import Link from 'next/link'
+import { ModeToggle } from './ModeToggle'
 
 function Header() {
   return (
@@ -16,6 +17,7 @@ function Header() {
         <div>
           <NavButton icon={UsersRound} label="Customers" href="/customers" />
           <NavButton icon={File} label="Tickets" href="/tickets" />
+          <ModeToggle />
         </div>
       </div>
     </header>
