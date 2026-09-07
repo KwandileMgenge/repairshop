@@ -6,7 +6,7 @@ export default async function RSLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div>
+    <div className="animate-slide">
       <Header />
       <div>{children}</div>
     </div>
