@@ -48,8 +48,8 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
 
-  --animation-appear: appear 1s ease-in-out;
-  --animation-slide: slide 1s ease-in-out;
+  --animation-appear: appear 1s ease-in-out forwards;
+  --animation-slide: slide 1s ease-in-out forwards;
 
   @keyframes appear {
     from {
