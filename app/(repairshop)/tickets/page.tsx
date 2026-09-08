@@ -1,4 +1,7 @@
-import React from 'react'
+export const metadata = {
+  title: 'Tickets',
+  description: 'View and manage tickets',
+}
 
 function Tickets() {
   return (

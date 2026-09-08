@@ -1,4 +1,7 @@
-import React from 'react'
+export const metadata = {
+  title: 'Customers',
+  description: 'View and manage customers',
+}
 
 function Customers() {
   return (
