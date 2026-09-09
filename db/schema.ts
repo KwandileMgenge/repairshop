@@ -12,9 +12,8 @@ export const customers = pgTable("customers", {
   city: varchar("city", { length: 100 }).notNull(),
   province: varchar("province", { length: 100 }).notNull(),
   zipCode: varchar("zip_code", { length: 20 }).notNull(),
-  country: varchar("country", { length: 100 }).notNull(),
-  isActive: boolean("is_active").default(true).notNull(),
   notes: text("notes"),
+  isActive: boolean("is_active").default(true).notNull(),
   createdAt: timestamp("created_at").defaultNow().notNull(),
   updatedAt: timestamp("updated_at").defaultNow().notNull().$onUpdate(() => new Date()),
 })

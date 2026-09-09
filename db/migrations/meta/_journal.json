@@ -8,6 +8,13 @@
       "when": 1788877622831,
       "tag": "0000_nebulous_doctor_spectrum",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "7",
+      "when": 1788930709763,
+      "tag": "0001_violet_hercules",
+      "breakpoints": true
     }
   ]
 }
