@@ -1,5 +1,8 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
+import EventEmitter from "events";
 import { NextRequest } from "next/server";
+
+EventEmitter.defaultMaxListeners = 20;
 
 export default withAuth(
   async function proxy(req: NextRequest) {

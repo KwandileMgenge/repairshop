@@ -13,12 +13,15 @@ export default async function CustomerFormPage({
   try {
 
     if (customerId) {
-      customer = await getCustomer(Number(customerId))
+      const customerResult = await getCustomer(Number(customerId))
 
-      if (!customer) {
+      if (customerResult && customerResult.length > 0) {
+        customer = customerResult[0]
+      } else {
         notFound = true
       }
-      console.log(customer)
+    } else {
+      notFound = true
     }
 
   } catch (error) {
@@ -38,7 +41,20 @@ export default async function CustomerFormPage({
         <BackButton title="Go Back" />
       </div>
     )
-  } else {
+  } 
+  
+  return (
+    <div className="p-4">
+      <header className="mb-4">
+        <h1 className="text-2xl font-bold">Edit Customer Profile</h1>
+        <p className="text-gray-600">ID: #{customer?.id}</p>
+      </header>
 
-  }
+      {/* Your Customer Edit Form goes here */}
+      <div className="border p-4 rounded bg-gray-50">
+        <p>Name: {customer?.firstName} {customer?.lastName}</p>
+        <p>Email: {customer?.email}</p>
+      </div>
+    </div>
+  )
 }
