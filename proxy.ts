@@ -1,9 +1,9 @@
 import { withAuth } from "@kinde-oss/kinde-auth-nextjs/middleware";
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest } from "next/server";
 
 export default withAuth(
-  async function middleware(req: NextRequest) {
-    //console.log("middleware.ts: req.url", req.url);
+  async function proxy(req: NextRequest) {
+    //console.log("proxy.ts: req.url", req.url);
   }, {
     isReturnToCurrentPage: true,
   }

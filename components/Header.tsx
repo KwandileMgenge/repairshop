@@ -24,7 +24,7 @@ function Header() {
           <Button>
             <LogoutLink>
               <LogOut />
-            npm run dev</LogoutLink>
+            </LogoutLink>
           </Button>
         </div>
       </div>
