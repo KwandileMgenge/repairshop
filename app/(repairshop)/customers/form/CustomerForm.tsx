@@ -47,7 +47,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
   }
 
   return (
-    <Card className="w-full max-w-2xl mx-auto">
+    <Card className="w-full max-w-2xl mx-auto shadow-md">
       <CardHeader>
         <CardTitle>
           {customer?.id ? 'Edit Customer' : 'New Customer'} Form
@@ -55,13 +55,13 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
       </CardHeader>
       <CardContent>
         <FormProvider {...form}>
-          {/* Fix 1: Added explicit id attribute to hook into the footer submit button */}
           <form 
             id="customer-form" 
             onSubmit={form.handleSubmit(submitForm)} 
-            className="space-y-4"
+            className="space-y-6"
           >
-            <div>
+            {/* Section 1: Personal Metadata Info Grid */}
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <InputWithLabel<insertCustomerSchemaType>
                 fieldTitle="First Name"
                 nameInSchema="firstName"
@@ -73,6 +73,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
               <InputWithLabel<insertCustomerSchemaType>
                 fieldTitle="Phone Number"
                 nameInSchema="phoneNumber"
+                type="tel"
               />
               <InputWithLabel<insertCustomerSchemaType>
                 fieldTitle="Email"
@@ -81,31 +82,38 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
               />
             </div>
             
-            <div>
-              <InputWithLabel<insertCustomerSchemaType>
-                fieldTitle="Address 1"
-                nameInSchema="address1"
-              />
-              <InputWithLabel<insertCustomerSchemaType>
-                fieldTitle="Address 2"
-                nameInSchema="address2"
-              />
-              <InputWithLabel<insertCustomerSchemaType>
-                fieldTitle="City"
-                nameInSchema="city"
-              />
-              <SelectWithLabel<insertCustomerSchemaType>
-                fieldTitle="Province"
-                nameInSchema="province"
-                data={PROVINCES}
-              />
-              <InputWithLabel<insertCustomerSchemaType>
-                fieldTitle="Zip Code"
-                nameInSchema="zipCode"
-              />
+            {/* Section 2: Address Specification Profile Grid */}
+            <div className="space-y-4">
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <InputWithLabel<insertCustomerSchemaType>
+                  fieldTitle="Address 1"
+                  nameInSchema="address1"
+                />
+                <InputWithLabel<insertCustomerSchemaType>
+                  fieldTitle="Address 2"
+                  nameInSchema="address2"
+                />
+              </div>
+
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                <InputWithLabel<insertCustomerSchemaType>
+                  fieldTitle="City"
+                  nameInSchema="city"
+                />
+                <SelectWithLabel<insertCustomerSchemaType>
+                  fieldTitle="Province"
+                  nameInSchema="province"
+                  data={PROVINCES}
+                />
+                <InputWithLabel<insertCustomerSchemaType>
+                  fieldTitle="Zip Code"
+                  nameInSchema="zipCode"
+                />
+              </div>
             </div>
             
-            <div>
+            {/* Section 3: Multi-Line Notes Blocks */}
+            <div className="block">
               <TextareaWithLabel<insertCustomerSchemaType>
                 fieldTitle="Notes"
                 nameInSchema="notes"
@@ -113,15 +121,13 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
               />
             </div>
 
-
           </form>
         </FormProvider>
       </CardContent>
-      <CardFooter className="flex justify-end gap-2">
+      <CardFooter className="flex justify-end gap-2 border-t pt-4">
         <Button type="button" variant="outline" onClick={() => form.reset()}>
           Reset
         </Button>
-        
         <Button type="submit" form="customer-form">
           {customer?.id ? 'Update Customer' : 'Create Customer'}
         </Button>
