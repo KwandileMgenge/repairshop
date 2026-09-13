@@ -8,14 +8,8 @@ import { Button } from '@/components/ui/button'
 import { insertCustomerSchema, type insertCustomerSchemaType, type selectCustomerSchemaType } from '@/zod-schemas/customer'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import {
-  Field,
-  FieldDescription,
-  FieldError,
-  FieldGroup,
-  FieldLabel,
-} from "@/components/ui/field"
-import { Input } from "@/components/ui/input"
+import { FormProvider } from 'react-hook-form'
+import { InputWithLabel } from '../../tickets/form/inputs/inputWithLabel'
 
 type CustomerFormProps = {
   customer?: selectCustomerSchemaType
@@ -55,35 +49,48 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
         </CardTitle>
       </CardHeader>
       <CardContent>
-        <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
-          <FieldGroup>
-            <Controller
-              name="firstName"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-firstName">
-                    First Name
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="form-rhf-demo-firstName"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="John"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
+        <FormProvider {...form}>
+          <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="First Name"
+              nameInSchema="firstName"
             />
-            </FieldGroup>
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="Last Name"
+              nameInSchema="lastName"
+            />
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="Address 1"
+              nameInSchema="address1"
+            />
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="Address 2"
+              nameInSchema="address2"
+            />
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="City"
+              nameInSchema="city"
+            />
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="Province"
+              nameInSchema="province"
+            />
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="Zip Code"
+              nameInSchema="zipCode"
+            />
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="Phone Number"
+              nameInSchema="phoneNumber"
+            />
+            <InputWithLabel<insertCustomerSchemaType>
+              fieldTitle="Email"
+              nameInSchema="email"
+            />
             <p>{JSON.stringify(form.getValues())}</p>
-        </form>
+          </form>
+        </FormProvider>
       </CardContent>
     </Card>
   );
 }
-
-

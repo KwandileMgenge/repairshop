@@ -53,29 +53,6 @@ export default function TicketForm({ customer, ticket }: TicketFormProps) {
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
-          <FieldGroup>
-            <Controller
-              name="title"
-              control={form.control}
-              render={({ field, fieldState }) => (
-                <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-title">
-                    Title
-                  </FieldLabel>
-                  <Input
-                    {...field}
-                    id="form-rhf-demo-title"
-                    aria-invalid={fieldState.invalid}
-                    placeholder="Enter ticket title"
-                    autoComplete="off"
-                  />
-                  {fieldState.invalid && (
-                    <FieldError errors={[fieldState.error]} />
-                  )}
-                </Field>
-              )}
-            />
-            </FieldGroup>
             <p>{JSON.stringify(form.getValues())}</p>
         </form>
       </CardContent>

@@ -54,6 +54,7 @@ export default async function TicketFormPage({
         customerNotFound = true
       }
     } else if (ticketNotFound) {
+      ticketNotFound = true
       customerNotFound = true
     }
 
