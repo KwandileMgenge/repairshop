@@ -1,13 +1,13 @@
 "use client"
 
-import { useForm, Controller } from 'react-hook-form'
+import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
 import { insertCustomerSchema, type insertCustomerSchemaType, type selectCustomerSchemaType } from '@/zod-schemas/customer'
 
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
+import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { FormProvider } from 'react-hook-form'
 import { InputWithLabel } from '../../tickets/form/inputs/inputWithLabel'
 
@@ -42,55 +42,76 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
   }
 
   return (
-    <Card>
+    <Card className="w-full max-w-2xl mx-auto">
       <CardHeader>
         <CardTitle>
-          {customer?.id ? 'Edit Customer' : 'Add Customer'}
+          {customer?.id ? 'Edit Customer' : 'New Customer'} Form
         </CardTitle>
       </CardHeader>
       <CardContent>
         <FormProvider {...form}>
-          <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="First Name"
-              nameInSchema="firstName"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="Last Name"
-              nameInSchema="lastName"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="Address 1"
-              nameInSchema="address1"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="Address 2"
-              nameInSchema="address2"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="City"
-              nameInSchema="city"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="Province"
-              nameInSchema="province"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="Zip Code"
-              nameInSchema="zipCode"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="Phone Number"
-              nameInSchema="phoneNumber"
-            />
-            <InputWithLabel<insertCustomerSchemaType>
-              fieldTitle="Email"
-              nameInSchema="email"
-            />
-            <p>{JSON.stringify(form.getValues())}</p>
+          {/* Fix 1: Added explicit id attribute to hook into the footer submit button */}
+          <form 
+            id="customer-form" 
+            onSubmit={form.handleSubmit(submitForm)} 
+            className="space-y-4"
+          >
+            <div>
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="First Name"
+                nameInSchema="firstName"
+              />
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="Last Name"
+                nameInSchema="lastName"
+              />
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="Phone Number"
+                nameInSchema="phoneNumber"
+              />
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="Email"
+                nameInSchema="email"
+                type="email"
+              />
+            </div>
+            
+            <div>
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="Address 1"
+                nameInSchema="address1"
+              />
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="Address 2"
+                nameInSchema="address2"
+              />
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="City"
+                nameInSchema="city"
+              />
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="Province"
+                nameInSchema="province"
+              />
+              <InputWithLabel<insertCustomerSchemaType>
+                fieldTitle="Zip Code"
+                nameInSchema="zipCode"
+              />
+            </div>
+
+
           </form>
         </FormProvider>
       </CardContent>
+      <CardFooter className="flex justify-end gap-2">
+        <Button type="button" variant="outline" onClick={() => form.reset()}>
+          Reset
+        </Button>
+        
+        <Button type="submit" form="customer-form">
+          {customer?.id ? 'Update Customer' : 'Create Customer'}
+        </Button>
+      </CardFooter>
     </Card>
   );
 }
