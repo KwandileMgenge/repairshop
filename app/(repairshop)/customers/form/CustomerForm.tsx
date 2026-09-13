@@ -9,8 +9,12 @@ import { insertCustomerSchema, type insertCustomerSchemaType, type selectCustome
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { FormProvider } from 'react-hook-form'
+
 import { InputWithLabel } from '../../../../components/inputs/InputWithLabel'
 import { TextareaWithLabel } from '@/components/inputs/TextareaWithLabel'
+import { SelectWithLabel } from '@/components/inputs/SelectWithLabel'
+
+import { PROVINCES } from '@/lib/constants/ProvincesArray'
 
 type CustomerFormProps = {
   customer?: selectCustomerSchemaType
@@ -90,9 +94,10 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
                 fieldTitle="City"
                 nameInSchema="city"
               />
-              <InputWithLabel<insertCustomerSchemaType>
+              <SelectWithLabel<insertCustomerSchemaType>
                 fieldTitle="Province"
                 nameInSchema="province"
+                data={PROVINCES}
               />
               <InputWithLabel<insertCustomerSchemaType>
                 fieldTitle="Zip Code"
