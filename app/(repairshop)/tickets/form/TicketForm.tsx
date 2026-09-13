@@ -5,7 +5,7 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
-import { insertCustomerSchema, type insertCustomerSchemaType, type selectCustomerSchemaType } from '@/zod-schemas/customer'
+import { insertTicketSchema, type insertTicketSchemaType, type selectTicketSchemaType } from '@/zod-schemas/ticket'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import {
@@ -16,60 +16,57 @@ import {
   FieldLabel,
 } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
+import { selectCustomerSchemaType } from '@/zod-schemas/customer'
 
-type CustomerFormProps = {
-  customer?: selectCustomerSchemaType
+type TicketFormProps = {
+  customer: selectCustomerSchemaType,
+  ticket?: selectTicketSchemaType
 }
 
-export default function CustomerForm({ customer }: CustomerFormProps) {
-  const defaultValues: insertCustomerSchemaType = {
-    id: customer?.id ?? 0,
-    firstName: customer?.firstName ?? '',
-    lastName: customer?.lastName ?? '',
-    address1: customer?.address1 ?? '',
-    address2: customer?.address2 ?? '',
-    city: customer?.city ?? '',
-    province: customer?.province ?? '',
-    zipCode: customer?.zipCode ?? '',
-    phoneNumber: customer?.phoneNumber ?? '',
-    email: customer?.email ?? '',
-    notes: customer?.notes ?? '',
+export default function TicketForm({ customer, ticket }: TicketFormProps) {
+  const defaultValues: insertTicketSchemaType = {
+    id: ticket?.id ?? 0,
+    customerId: ticket?.customerId ?? customer.id,
+    title: ticket?.title ?? '',
+    description: ticket?.description ?? '',
+    completed: ticket?.completed ?? false,
+    technician: ticket?.technician ?? 'new-ticket@example.com',
   }
 
-  const form = useForm<insertCustomerSchemaType>({
+  const form = useForm<insertTicketSchemaType>({
     mode: 'onBlur',
-    resolver: zodResolver(insertCustomerSchema),
+    resolver: zodResolver(insertTicketSchema),
     defaultValues,
   })
 
-  async function submitForm(data: insertCustomerSchemaType) {
+  async function submitForm(data: insertTicketSchemaType) {
     console.log(data)
-    toast.success('Customer saved successfully!')
+    toast.success('Ticket saved successfully!')
   }
 
   return (
     <Card>
       <CardHeader>
         <CardTitle>
-          {customer?.id ? 'Edit Customer' : 'Add Customer'}
+          {ticket?.id ? 'Edit' : 'New'} Ticket {ticket?.id ? `# ${ticket.id}` : 'Form'}
         </CardTitle>
       </CardHeader>
       <CardContent>
         <form onSubmit={form.handleSubmit(submitForm)} className="space-y-4">
           <FieldGroup>
             <Controller
-              name="firstName"
+              name="title"
               control={form.control}
               render={({ field, fieldState }) => (
                 <Field data-invalid={fieldState.invalid}>
-                  <FieldLabel htmlFor="form-rhf-demo-firstName">
-                    First Name
+                  <FieldLabel htmlFor="form-rhf-demo-title">
+                    Title
                   </FieldLabel>
                   <Input
                     {...field}
-                    id="form-rhf-demo-firstName"
+                    id="form-rhf-demo-title"
                     aria-invalid={fieldState.invalid}
-                    placeholder="John"
+                    placeholder="Enter ticket title"
                     autoComplete="off"
                   />
                   {fieldState.invalid && (
@@ -83,7 +80,5 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
         </form>
       </CardContent>
     </Card>
-  );
+  )
 }
-
-

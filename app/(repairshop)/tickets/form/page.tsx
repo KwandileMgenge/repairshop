@@ -2,6 +2,7 @@ import { getCustomer } from '@/lib/queries/getCustomer'
 import { getTicket } from '@/lib/queries/getTicket'
 import { BackButton } from '@/components/BackButton'
 import * as Sentry from '@sentry/nextjs'
+import TicketForm from './TicketForm'
 
 export default async function TicketFormPage({
   searchParams 
@@ -73,7 +74,7 @@ export default async function TicketFormPage({
     )
   }
 
-  if (customerNotFound) {
+  if (customerNotFound || !customer) {
     return (
       <div className="p-4">
         <h2>Customer data associated with this request was not found</h2>
@@ -93,19 +94,7 @@ export default async function TicketFormPage({
 
   return (
     <div className="p-4">
-      <header className="mb-4">
-        <h1 className="text-2xl font-bold">
-          {ticket ? `Edit Ticket #${ticket.id}` : 'Create New Ticket'}
-        </h1>
-        <p className="text-gray-600">
-          Customer: {customer?.firstName} {customer?.lastName}
-        </p>
-      </header>
-
-      {/* Put your Ticket Form markup or Client Component reference here */}
-      <div className="border p-4 rounded bg-gray-50">
-        <p>Ticket form fields will go here.</p>
-      </div>
+      <TicketForm customer={customer} ticket={ticket ?? undefined} />
     </div>
   )
 }

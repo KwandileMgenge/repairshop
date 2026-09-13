@@ -12,5 +12,5 @@ export const insertTicketSchema = createInsertSchema(tickets, {
 
 export const selectTicketSchema = createSelectSchema(tickets);
 
-export type InsertTicketSchemaType = z.infer<typeof insertTicketSchema>;
-export type SelectTicketSchemaType = z.infer<typeof selectTicketSchema>;
+export type insertTicketSchemaType = z.infer<typeof insertTicketSchema>;
+export type selectTicketSchemaType = z.infer<typeof selectTicketSchema>;
