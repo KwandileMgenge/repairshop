@@ -1,6 +1,7 @@
 import { getCustomer } from '@/lib/queries/getCustomer'
 import { BackButton } from '@/components/BackButton'
 import * as Sentry from '@sentry/nextjs'
+import CustomerForm from './CustomerForm'
 
 export default async function CustomerFormPage({
   searchParams 
@@ -22,7 +23,7 @@ export default async function CustomerFormPage({
         notFound = true
       }
     } else {
-      notFound = true
+      notFound = false
     }
 
   } catch (error) {
@@ -34,7 +35,7 @@ export default async function CustomerFormPage({
 
   }
 
-  if (notFound) {
+  if (notFound && customerId) {
     return (
       <div>
         <h2>Customer ID #{customerId} not found</h2>
@@ -45,16 +46,7 @@ export default async function CustomerFormPage({
   
   return (
     <div className="p-4">
-      <header className="mb-4">
-        <h1 className="text-2xl font-bold">Edit Customer Profile</h1>
-        <p className="text-gray-600">ID: #{customer?.id}</p>
-      </header>
-
-      {/* Your Customer Edit Form goes here */}
-      <div className="border p-4 rounded bg-gray-50">
-        <p>Name: {customer?.firstName} {customer?.lastName}</p>
-        <p>Email: {customer?.email}</p>
-      </div>
+      <CustomerForm customer={customer ?? undefined} />
     </div>
   )
 }
