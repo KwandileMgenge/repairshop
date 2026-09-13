@@ -9,7 +9,8 @@ import { insertCustomerSchema, type insertCustomerSchemaType, type selectCustome
 
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { FormProvider } from 'react-hook-form'
-import { InputWithLabel } from '../../tickets/form/inputs/inputWithLabel'
+import { InputWithLabel } from '../../../../components/inputs/InputWithLabel'
+import { TextareaWithLabel } from '@/components/inputs/TextareaWithLabel'
 
 type CustomerFormProps = {
   customer?: selectCustomerSchemaType
@@ -96,6 +97,14 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
               <InputWithLabel<insertCustomerSchemaType>
                 fieldTitle="Zip Code"
                 nameInSchema="zipCode"
+              />
+            </div>
+            
+            <div>
+              <TextareaWithLabel<insertCustomerSchemaType>
+                fieldTitle="Notes"
+                nameInSchema="notes"
+                rows={4}
               />
             </div>
 
