@@ -13,6 +13,9 @@ import { FormProvider } from 'react-hook-form'
 import { InputWithLabel } from '../../../../components/inputs/InputWithLabel'
 import { TextareaWithLabel } from '@/components/inputs/TextareaWithLabel'
 import { SelectWithLabel } from '@/components/inputs/SelectWithLabel'
+import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel'
+
+import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 
 import { PROVINCES } from '@/lib/constants/ProvincesArray'
 
@@ -21,6 +24,9 @@ type CustomerFormProps = {
 }
 
 export default function CustomerForm({ customer }: CustomerFormProps) {
+  const { getPermission, isLoading } = useKindeBrowserClient()
+  const isManager = !isLoading && getPermission('manager')?.isGranted
+
   const defaultValues: insertCustomerSchemaType = {
     id: customer?.id ?? 0,
     firstName: customer?.firstName ?? '',
@@ -33,6 +39,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
     phoneNumber: customer?.phoneNumber ?? '',
     email: customer?.email ?? '',
     notes: customer?.notes ?? '',
+    isActive: customer?.isActive ?? true,
   }
 
   const form = useForm<insertCustomerSchemaType>({
@@ -50,7 +57,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
     <Card className="w-full max-w-2xl mx-auto shadow-md">
       <CardHeader>
         <CardTitle>
-          {customer?.id ? 'Edit Customer' : 'New Customer'} Form
+          {customer?.id ? 'Edit' : 'New'} Customer {customer?.id ? `#${customer.id}` : 'Form'}
         </CardTitle>
       </CardHeader>
       <CardContent>
@@ -119,6 +126,10 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
                 nameInSchema="notes"
                 rows={4}
               />
+
+              {isLoading ? <div className="h-6 w-32 animate-pulse bg-gray-200 rounded mt-2" /> : isManager ? (
+                <CheckboxWithLabel<insertCustomerSchemaType>  fieldTitle="Active Customer" nameInSchema="isActive" className="mt-2" />
+              ) : null}
             </div>
 
           </form>
