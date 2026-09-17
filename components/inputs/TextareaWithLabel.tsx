@@ -8,6 +8,7 @@ type TextareaWithLabelProps<S> = {
   fieldTitle: string
   nameInSchema: keyof S & string
   placeholder?: string
+  disabled?: boolean
   rows?: number
 }
 
@@ -15,6 +16,7 @@ export function TextareaWithLabel<S>({
   fieldTitle,
   nameInSchema,
   placeholder,
+  disabled = false,
   rows = 4,
   ...props
 }: TextareaWithLabelProps<S>) {
@@ -40,6 +42,7 @@ export function TextareaWithLabel<S>({
               value={(field.value ?? '') as string | number}
               aria-invalid={fieldState.invalid}
               placeholder={placeholder ?? `Enter ${fieldTitle.toLowerCase()}`}
+              disabled={disabled}
               rows={rows}
             />
 

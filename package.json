@@ -14,6 +14,7 @@
     "@base-ui/react": "^1.8.0",
     "@hookform/resolvers": "^5.9.1",
     "@kinde-oss/kinde-auth-nextjs": "^2.13.1",
+    "@kinde/management-api-js": "^0.19.0",
     "@neondatabase/serverless": "^1.1.0",
     "@sentry/nextjs": "^10.73.0",
     "class-variance-authority": "^0.7.1",

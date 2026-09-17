@@ -4,6 +4,9 @@ import { BackButton } from '@/components/BackButton'
 import * as Sentry from '@sentry/nextjs'
 import TicketForm from './TicketForm'
 
+import { getKindeServerSession } from '@kinde-oss/kinde-auth-nextjs/server'
+import { Users, init as kindeInit } from '@kinde/management-api-js'
+
 export default async function TicketFormPage({
   searchParams 
 }: { 
@@ -27,8 +30,16 @@ export default async function TicketFormPage({
     )
   }
 
+  // 1. SAFELY FETCH PERMISSIONS AND USER INFORMATION
+  const { getPermission, getUser } = await getKindeServerSession()
+  const [managerPermission, user] = await Promise.all([
+    getPermission('manager'),
+    getUser()
+  ])
+  
+  const isManager = managerPermission?.isGranted
+
   try {
-    
     if (ticketId) {
       const ticketResult = await getTicket(Number(ticketId))
       
@@ -61,7 +72,7 @@ export default async function TicketFormPage({
   } catch (error) {
     if (error instanceof Error) {
       Sentry.captureException(error)
-      throw(error)
+      throw error
     } 
     customerNotFound = true
   }
@@ -93,9 +104,43 @@ export default async function TicketFormPage({
     )
   }
 
+  // 2. DECLARE CONTROL VARIABLES OUTSIDE BLOCK SCOPES
+  let technicians: { id: string; description: string }[] = []
+  let isEditable = false
+
+  if (isManager) {
+    // Managers can always edit all tickets
+    isEditable = true 
+
+    try {
+      kindeInit()
+      const apiResponse = await Users.getUsers()
+      const userList = apiResponse?.users || []
+
+      technicians = userList
+        .filter((u: { email?: string }) => !!u.email)
+        .map((user: { email?: string }) => ({
+          id: user.email!,
+          description: user.email!,
+        }))
+    } catch (kindeError) {
+      console.error("Kinde Management API Error:", kindeError)
+      Sentry.captureException(kindeError)
+    }
+  } else {
+    // If NOT a manager, they can edit only if they are the assigned technician, OR if it's a brand new ticket
+    isEditable = !ticketId || (!!user?.email && user.email === ticket?.technician)
+  }
+
+  // 3. FINAL INTEGRATION RETURN PASSING SCOPED VARIABLES
   return (
     <div className="p-4">
-      <TicketForm customer={customer} ticket={ticket ?? undefined} />
+      <TicketForm 
+        customer={customer} 
+        ticket={ticket ?? undefined} 
+        technicians={technicians} 
+        isEditable={isEditable}
+      />
     </div>
   )
 }

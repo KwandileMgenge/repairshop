@@ -13,13 +13,21 @@ import { InputWithLabel } from '@/components/inputs/InputWithLabel'
 import { TextareaWithLabel } from '@/components/inputs/TextareaWithLabel'
 // Make sure to add a checkbox wrapper if your schema requires tracking the 'completed' value
 import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel' 
+import { SelectWithLabel } from '@/components/inputs/SelectWithLabel'
 
 type TicketFormProps = {
   customer: selectCustomerSchemaType,
   ticket?: selectTicketSchemaType
+  technicians?: {
+    id: string,
+    description: string,
+  }[],
+  isEditable?: boolean
 }
 
-export default function TicketForm({ customer, ticket }: TicketFormProps) {
+export default function TicketForm({ customer, ticket, technicians, isEditable }: TicketFormProps) {
+  const isManager = Array.isArray(technicians) && technicians.length > 0
+
   const defaultValues: insertTicketSchemaType = {
     id: ticket?.id ?? 0,
     customerId: ticket?.customerId ?? customer.id,
@@ -63,14 +71,27 @@ export default function TicketForm({ customer, ticket }: TicketFormProps) {
                 fieldTitle="Ticket Title"
                 nameInSchema="title"
                 placeholder="e.g., Laptop screen flickering"
+                disabled={!isEditable}
               />
 
-              <InputWithLabel<insertTicketSchemaType>
-                fieldTitle="Assigned Technician"
-                nameInSchema="technician"
-                disabled={true}
-                className="bg-muted pointer-events-none cursor-not-allowed opacity-80"
-              />
+              {isManager ? (
+                <SelectWithLabel<insertTicketSchemaType>
+                  fieldTitle="Assigned Technician"
+                  nameInSchema="technician"
+                  data={[{
+                    id: 'new-ticket@example.com',
+                    description: 'Unassigned (New Ticket)',
+                  }, ...technicians]}
+                />
+              ) : (
+                <InputWithLabel<insertTicketSchemaType>
+                  fieldTitle="Assigned Technician"
+                  nameInSchema="technician"
+                  disabled={true}
+                  className="bg-muted pointer-events-none cursor-not-allowed opacity-80"
+                />
+              )}
+              
             </div>
 
             {/* Render a completion toggle strictly when editing a pre-existing ticket instance */}
@@ -79,6 +100,7 @@ export default function TicketForm({ customer, ticket }: TicketFormProps) {
                 <CheckboxWithLabel<insertTicketSchemaType>
                   fieldTitle="Mark this ticket as Completed"
                   nameInSchema="completed"
+                  disabled={!isEditable}
                 />
               </div>
             ) : null}
@@ -111,6 +133,7 @@ export default function TicketForm({ customer, ticket }: TicketFormProps) {
                 fieldTitle="Detailed Fault Description"
                 nameInSchema="description"
                 placeholder="Detail diagnostics data or steps required to resolve..."
+                disabled={!isEditable}
                 rows={5}
               />
             </div>
@@ -118,13 +141,24 @@ export default function TicketForm({ customer, ticket }: TicketFormProps) {
           </form>
         </FormProvider>
       </CardContent>
-      {/* Explicit Actions Container block syncing directly to standard form submission definitions */}
+      
       <CardFooter className="flex justify-end gap-2 border-t pt-4">
-        <Button type="button" variant="outline" onClick={() => form.reset()}>
+        <Button 
+          type="button" 
+          variant="outline" 
+          onClick={() => form.reset()}
+          disabled={!isEditable || form.formState.isSubmitting}
+        >
           Reset
         </Button>
-        <Button type="submit" form="ticket-form">
-          {ticket?.id ? 'Save Changes' : 'Open Ticket'}
+        <Button 
+          type="submit" 
+          form="ticket-form"
+          disabled={!isEditable || form.formState.isSubmitting}
+        >
+          {form.formState.isSubmitting 
+            ? 'Saving...' 
+            : ticket?.id ? 'Save Changes' : 'Open Ticket'}
         </Button>
       </CardFooter>
     </Card>

@@ -8,12 +8,14 @@ type CheckboxWithLabelProps<S> = {
   fieldTitle: string
   nameInSchema: keyof S & string
   className?: string
+  disabled?: boolean
 }
 
 export function CheckboxWithLabel<S>({
   fieldTitle,
   nameInSchema,
   className,
+  disabled = false
 }: CheckboxWithLabelProps<S>) {
   const form = useFormContext()
   const fieldId = `field-${nameInSchema}`
@@ -32,11 +34,10 @@ export function CheckboxWithLabel<S>({
                 id={fieldId}
                 checked={Boolean(field.value)}
                 onCheckedChange={field.onChange}
-                disabled={field.disabled}
+                disabled={disabled}
                 name={field.name}
                 ref={field.ref}
                 aria-invalid={fieldState.invalid}
-                /* h-4 w-4 shrink-0 locks the square dimensions regardless of surrounding elements */
                 className="h-4 w-4 shrink-0 rounded border-input"
               />
               
