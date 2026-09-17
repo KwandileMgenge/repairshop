@@ -127,7 +127,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
                 rows={4}
               />
 
-              {isLoading ? <div className="h-6 w-32 animate-pulse bg-gray-200 rounded mt-2" /> : isManager ? (
+              {isLoading ? <div className="h-6 w-32 animate-pulse bg-gray-200 rounded mt-2" /> : isManager && customer?.id ? (
                 <CheckboxWithLabel<insertCustomerSchemaType>  fieldTitle="Active Customer" nameInSchema="isActive" className="mt-2" />
               ) : null}
             </div>
