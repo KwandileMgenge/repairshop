@@ -52,7 +52,7 @@ export default function TicketForm({ customer, ticket, technicians, isEditable }
     <Card className="w-full max-w-2xl mx-auto shadow-md">
       <CardHeader>
         <CardTitle>
-          {ticket?.id ? 'Edit' : 'New'} Ticket {ticket?.id ? `#${ticket.id}` : 'Form'}
+          {ticket?.id && isEditable ? 'Edit' : ticket?.id ? 'View' : 'New'} Ticket {ticket?.id ? `#${ticket.id}` : 'Form'}
         </CardTitle>
         <CardDescription>
           Provide technical service details below for the customer account.
