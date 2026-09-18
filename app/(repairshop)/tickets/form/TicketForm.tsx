@@ -5,13 +5,13 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { toast } from 'sonner'
 import { Button } from '@/components/ui/button'
 
+import { type selectCustomerSchemaType } from '@/zod-schemas/customer'
 import { insertTicketSchema, type insertTicketSchemaType, type selectTicketSchemaType } from '@/zod-schemas/ticket'
 
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
-import { selectCustomerSchemaType } from '@/zod-schemas/customer'
+
 import { InputWithLabel } from '@/components/inputs/InputWithLabel'
 import { TextareaWithLabel } from '@/components/inputs/TextareaWithLabel'
-// Make sure to add a checkbox wrapper if your schema requires tracking the 'completed' value
 import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel' 
 import { SelectWithLabel } from '@/components/inputs/SelectWithLabel'
 

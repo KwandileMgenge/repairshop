@@ -10,7 +10,7 @@ import { insertCustomerSchema, type insertCustomerSchemaType, type selectCustome
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from '@/components/ui/card'
 import { FormProvider } from 'react-hook-form'
 
-import { InputWithLabel } from '../../../../components/inputs/InputWithLabel'
+import { InputWithLabel } from '@/components/inputs/InputWithLabel'
 import { TextareaWithLabel } from '@/components/inputs/TextareaWithLabel'
 import { SelectWithLabel } from '@/components/inputs/SelectWithLabel'
 import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel'
