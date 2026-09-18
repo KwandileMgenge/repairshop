@@ -9,6 +9,7 @@ export const actionClient = createSafeActionClient({
       actionName: z.string(),
     });
   },
+  defaultValidationErrorsShape: "flattened", 
   handleServerError(e, utils) {
     const { clientInput, metadata } = utils;
     
