@@ -6,6 +6,7 @@ export async function getCustomer(id: number) {
   const customer = await db.select()
     .from(customers)
     .where(eq(customers.id, id))
+    .limit(1)
 
   return customer
 }
