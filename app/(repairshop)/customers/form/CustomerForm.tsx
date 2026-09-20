@@ -18,6 +18,7 @@ import { CheckboxWithLabel } from '@/components/inputs/CheckboxWithLabel'
 import { useKindeBrowserClient } from '@kinde-oss/kinde-auth-nextjs'
 
 import { PROVINCES } from '@/lib/constants/ProvincesArray'
+import { PhoneNumberInputWithLabel } from '@/components/inputs/PhoneNumberInputWithLabel'
 
 type CustomerFormProps = {
   customer?: selectCustomerSchemaType
@@ -29,8 +30,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
 
   const defaultValues: insertCustomerSchemaType = {
     id: customer?.id ?? 0,
-    firstName: customer?.firstName ?? '',
-    lastName: customer?.lastName ?? '',
+    fullName: customer?.fullName ?? '',
     address1: customer?.address1 ?? '',
     address2: customer?.address2 ?? '',
     city: customer?.city ?? '',
@@ -68,21 +68,16 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
             className="space-y-6"
           >
             {/* Section 1: Personal Metadata Info Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              <InputWithLabel<insertCustomerSchemaType>
-                fieldTitle="First Name"
-                nameInSchema="firstName"
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 w-full overflow-hidden">
+              <InputWithLabel<insertCustomerSchemaType> className="col-span-1 sm:col-span-2"
+                fieldTitle="Full Name"
+                nameInSchema="fullName"
               />
-              <InputWithLabel<insertCustomerSchemaType>
-                fieldTitle="Last Name"
-                nameInSchema="lastName"
-              />
-              <InputWithLabel<insertCustomerSchemaType>
+              <PhoneNumberInputWithLabel<insertCustomerSchemaType> className="col-span-1"
                 fieldTitle="Phone Number"
                 nameInSchema="phoneNumber"
-                type="tel"
               />
-              <InputWithLabel<insertCustomerSchemaType>
+              <InputWithLabel<insertCustomerSchemaType> className="col-span-1"
                 fieldTitle="Email"
                 nameInSchema="email"
                 type="email"
