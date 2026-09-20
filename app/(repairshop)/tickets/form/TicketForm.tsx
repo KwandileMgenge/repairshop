@@ -114,7 +114,7 @@ export default function TicketForm({ customer, ticket, technicians, isEditable }
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-2 text-muted-foreground pt-1">
                 <div>
                   <p className="font-medium text-foreground">
-                    {customer.firstName} {customer.lastName}
+                    {customer.fullName}
                   </p>
                   <p>{customer.address1}</p>
                   {customer.address2 && <p>{customer.address2}</p>}
