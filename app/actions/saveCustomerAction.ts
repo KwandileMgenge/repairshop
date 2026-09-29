@@ -1,7 +1,6 @@
 'use server'
 
 import { eq } from 'drizzle-orm'
-import { redirect } from 'next/navigation'
 
 import { db } from '@/db'
 import { customers } from '@/db/schema'
@@ -19,7 +18,7 @@ export const saveCustomerAction = actionClient
     const isUserAuthenticated = await isAuthenticated()
     
     if (!isUserAuthenticated) {
-      redirect('/login')
+      throw new Error("Unauthorized access") // Safer layout paradigm inside actions
     }
 
     let targetCustomerId: number;
@@ -27,8 +26,7 @@ export const saveCustomerAction = actionClient
     // A. NEW CUSTOMER: INSERT PIPELINE
     if (customerData.id === 0) {
       const [newCustomer] = await db.insert(customers).values({
-        firstName: customerData.firstName,
-        lastName: customerData.lastName,
+        fullName: customerData.fullName,
         email: customerData.email,
         phoneNumber: customerData.phoneNumber,
         address1: customerData.address1,
@@ -45,8 +43,7 @@ export const saveCustomerAction = actionClient
       const targetId = customerData.id ?? 0;
 
       const [updatedCustomer] = await db.update(customers).set({
-        firstName: customerData.firstName,
-        lastName: customerData.lastName,
+        fullName: customerData.fullName,
         email: customerData.email,
         phoneNumber: customerData.phoneNumber,
         address1: customerData.address1,
@@ -61,5 +58,8 @@ export const saveCustomerAction = actionClient
       targetCustomerId = updatedCustomer.updatedId
     }
 
-    redirect(`/customers/form?customerId=${targetCustomerId}`)
+    return { 
+      message: customerData.id === 0 ? "Customer created successfully!" : "Customer updated successfully!",
+      customerId: targetCustomerId 
+    }
   })
