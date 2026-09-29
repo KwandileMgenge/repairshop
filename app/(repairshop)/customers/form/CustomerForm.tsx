@@ -3,7 +3,7 @@
 
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { toast } from 'sonner'
+import { toast } from '@/components/ui/toast'
 import { Button } from '@/components/ui/button'
 
 import { insertCustomerSchema, type insertCustomerSchemaType, type selectCustomerSchemaType } from '@/zod-schemas/customer'
@@ -55,7 +55,11 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
         const payload = data as { message: string; customerId: number };
         
         // 1. Immediately fire off the client notification alert
-        toast.success(payload.message)
+        toast.add({
+          title: 'Success! Customer Saved',
+          description: payload.message,
+          type: 'success', // Automatically styles it as green
+        })
         
         // 2. Perform smooth soft routing without breaking execution callbacks
         router.push(`/customers/form?customerId=${payload.customerId}`)
@@ -64,7 +68,12 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
     },
     onError({ error }) {
       const errMsg = error.serverError || 'An unexpected runtime error occurred while saving.'
-      toast.error(errMsg)
+      
+      toast.add({
+        title: 'Error Saving Customer',
+        description: errMsg,
+        type: 'error', // Automatically styles it as bold red matching your screenshot reference
+      })
     }
   })
 
