@@ -1,4 +1,3 @@
-// File: app/(repairshop)/customers/form/CustomerForm.tsx
 "use client"
 
 import { useForm } from 'react-hook-form'
@@ -23,7 +22,7 @@ import { PhoneNumberInputWithLabel } from '@/components/inputs/PhoneNumberInputW
 import { useAction } from 'next-safe-action/hooks'
 import { saveCustomerAction } from '@/app/actions/saveCustomerAction'
 import { DisplayServerActionResponse } from '@/components/DisplayServerActionResponse'
-import { useRouter } from 'next/navigation' // ✅ Added client side router for smooth redirects
+import { useRouter } from 'next/navigation'
 
 type CustomerFormProps = {
   customer?: selectCustomerSchemaType
@@ -45,7 +44,7 @@ function formatToE164(phone: string | undefined | null): string {
 }
 
 export default function CustomerForm({ customer }: CustomerFormProps) {
-  const router = useRouter() // ✅ Initialize client router instance
+  const router = useRouter() 
   const { getPermission, isLoading } = useKindeBrowserClient()
   const isManager = !isLoading && getPermission('manager')?.isGranted
 
@@ -98,7 +97,7 @@ export default function CustomerForm({ customer }: CustomerFormProps) {
   })
 
   async function submitForm(data: insertCustomerSchemaType) {
-    executeSaveCustomer(data)
+    executeSaveCustomer({...data, fullName: '', phoneNumber: ''})
   }
 
   return (
