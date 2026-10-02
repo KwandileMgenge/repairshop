@@ -4,7 +4,7 @@ import { useFormStatus } from 'react-dom'
 import { Button } from '@/components/ui/button'
 import { Loader2 } from 'lucide-react'
 
-export function SearchButton() {
+export default function SearchButton() {
   const { pending } = useFormStatus()
 
   return (
